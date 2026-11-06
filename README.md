@@ -23,6 +23,8 @@ Nesta sessão do Codex, os executáveis empacotados foram usados; `docs/EXECUCAO
 
 ## Entregas
 
+Na versão 0.2, o material para colar no RCI está em `Relatorio para o RCI editavel.docx`: tabelas compactas, gráficos, textos e critérios no mesmo documento. `Relatorio para o RCI com imagens.docx` oferece a alternativa com os quadros como imagens. O Excel gerado tem quadros de apresentação, sem cabeçalhos técnicos, e os PNGs individuais ficam em `Quadros para o RCI`. Consulte `docs/APRESENTACAO_RCI.md`.
+
 Cada execução cria uma pasta nova em `Analises/2026/Jan-jun/relatorios gerados/`. O arquivo `ULTIMA_EXECUCAO.txt` aponta para a última execução concluída. Não é necessário apagar relatórios: alterações manuais anteriores ficam preservadas.
 
 - Guia geral em Word e PDF, explicando pastas, arquivos e uso.

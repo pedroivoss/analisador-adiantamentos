@@ -9,7 +9,7 @@ _local_deps=Path(__file__).resolve().parents[1]/'.runtime-deps'
 if _local_deps.exists():sys.path.insert(0,str(_local_deps))
 from openpyxl import load_workbook
 
-VERSION='0.1.0'
+VERSION='0.2.0'
 COLS={'A':'processo','B':'servidor','C':'secretaria','D':'nota','E':'adiantado','F':'utilizado','G':'devolvido','H':'mes_informado','I':'pagamento','K':'prazo_aplicacao','L':'prazo_devolucao','M':'prazo_prestacao','O':'ultima_aplicacao','P':'devolucao','Q':'prestacao','S':'atraso_informado_aplicacao','T':'atraso_informado_devolucao','U':'atraso_informado_prestacao','W':'tipo','Z':'smf','AA':'cgm'}
 MONEY=['adiantado','utilizado','devolvido']
 DATES=['pagamento','prazo_aplicacao','prazo_devolucao','prazo_prestacao','ultima_aplicacao','devolucao','prestacao']
@@ -348,7 +348,8 @@ def charts(tables,path):
     formatter=FuncFormatter(lambda x,pos:f'{x:,.0f}'.replace(',','.'))
     rs=tables['mensal'];fig,ax=plt.subplots(figsize=(10,4.4));x=list(range(len(rs)))
     for j,k in enumerate(MONEY):ax.bar([v+(j-1)*.25 for v in x],[r[k] for r in rs],width=.25,label={'adiantado':'Adiantado','utilizado':'Utilizado','devolvido':'Devolvido'}[k],color=palette[j])
-    ax.set_xticks(x,[r['mes'] for r in rs]);ax.yaxis.set_major_formatter(formatter);ax.set_ylabel('Valores registrados (R$)');ax.legend(ncol=3,frameon=False);ax.set_title('Adiantamentos por mês do pagamento');save(fig,'mensal')
+    from apresentacao import mes
+    ax.set_xticks(x,[mes(r['mes']) for r in rs]);ax.yaxis.set_major_formatter(formatter);ax.set_ylabel('Valores registrados (R$)');ax.legend(ncol=3,frameon=False);ax.set_title('Adiantamentos por mês do pagamento');save(fig,'mensal')
     rs=sorted(tables['secretarias'],key=lambda r:r['adiantado'])
     fig,ax=plt.subplots(figsize=(10,max(4,len(rs)*.3)))
     ax.barh([r['secretaria'] for r in rs],[r['adiantado'] for r in rs],color=palette[0]);ax.set_xlabel('Valor adiantado (R$)');ax.xaxis.set_major_formatter(formatter);ax.set_title('Valores adiantados por secretaria');save(fig,'secretarias')
@@ -410,8 +411,8 @@ def create_documents(run,sections,summary,tables,meta):
     paragraphs=[
       'O pacote reúne resultados, gráficos e textos editáveis para a seção de adiantamentos do RCI. Comece pelo relatório geral, confira os alertas e selecione os trechos que deseja inserir manualmente. Esta execução não modifica o Excel original.',
       f"Período dos pagamentos: {cfg['inicio']} a {cfg['fim']}. Observação: {cfg['data_observacao']}. Base: {summary['registros']} registros e {summary['processos_unicos']} processos SEI. Cada execução cria pasta própria para preservar correções manuais das versões anteriores.",
-      'Relatorio_Adiantamentos_PRELIMINAR.docx e .pdf: apresentam a análise em seis partes, com textos e gráficos. O Word é editável; o PDF oferece uma versão de leitura.',
-      'Planilhas/Analise_editavel.xlsx: reúne as tabelas de apoio, indicadores e base normalizada com linha de origem. Os resultados são um retrato da execução: para atualizar cálculos e textos, corrija a fonte ou configuração e rode novamente. Alterações manuais nesta planilha não recalculam automaticamente o relatório.',
+      'Relatorio para o RCI editavel.docx e Relatorio para o RCI.pdf: reúnem quadros compactos, textos de leitura, critérios e gráficos. Cada quadro cabe na largura de uma página em retrato. A versão com imagens contém os mesmos quadros em PNG para copiar sem alterar o desenho.',
+      'Planilhas/Analise_editavel.xlsx: contém somente quadros de apresentação compactos, com colunas legíveis, meses como jan/26 e valores em reais. A base detalhada de conferência permanece em dados/. Para atualizar os resultados, corrija a fonte e rode novamente.',
       'graficos/: cinco figuras em PNG para inserção no RCI e em SVG vetorial para edição. Cada figura tem seu texto explicativo na pasta temática correspondente.',
       'dados/: base normalizada em CSV/JSON, indicadores, tabelas completas, casos de prazo com processos e notas, exclusões, conciliação do consolidado, alertas e resumo agregado para IA. Os CSV usam ponto e vírgula e UTF-8 com BOM; importe números usando ponto decimal.',
       'manifesto.json: configuração, versão, nomes e hashes SHA-256 das fontes e dos arquivos gerados. Permite saber exatamente qual planilha originou o resultado. Alterações manuais posteriores deixam de corresponder aos hashes registrados.',
@@ -439,8 +440,8 @@ def create_documents(run,sections,summary,tables,meta):
         catalog.append({'arquivo':name,'finalidade':why})
     catalog.append({'arquivo':'dados/execucao_ia.json e textos/rascunho_ollama_REVISAR.txt (opcionais)','finalidade':'Criados apenas se a geração local com Ollama for executada com sucesso.'})
     csv_write(run/'INVENTARIO_ARQUIVOS.csv',catalog)
-    guide.add_paragraph('INVENTARIO_ARQUIVOS.csv reproduz a lista abaixo em formato editável. Arquivos opcionais de IA são acrescentados após a execução principal. Os PDFs foram verificados visualmente; a paginação dos DOCX deve ser conferida no Word, pois a renderização local de Word não ficou disponível nesta sessão.')
-    story.append(p('INVENTARIO_ARQUIVOS.csv reproduz a lista abaixo em formato editável. Arquivos opcionais de IA são acrescentados após a execução principal. Os PDFs foram verificados visualmente; a paginação dos DOCX deve ser conferida no Word, pois a renderização local de Word não ficou disponível nesta sessão.'))
+    guide.add_paragraph('INVENTARIO_ARQUIVOS.csv reproduz a lista abaixo em formato editável. Arquivos opcionais de IA são acrescentados após a execução principal. Os quadros de apresentação têm largura limitada à página em retrato. A paginação deve ser verificada novamente após alterações de conteúdo ou margens.')
+    story.append(p('INVENTARIO_ARQUIVOS.csv reproduz a lista abaixo em formato editável. Arquivos opcionais de IA são acrescentados após a execução principal. Os quadros de apresentação têm largura limitada à página em retrato. A paginação deve ser verificada novamente após alterações de conteúdo ou margens.'))
     table=guide.add_table(rows=1,cols=2);table.style='Light Shading Accent 1';table.rows[0].cells[0].text='Arquivo';table.rows[0].cells[1].text='Finalidade'
     from docx.oxml import OxmlElement
     from docx.oxml.ns import qn
@@ -468,12 +469,13 @@ def export_workbook(root,run,tables,rows,summary):
         support=root/'work'/run.name;support.mkdir(parents=True,exist_ok=True)
         (run/'dados/workbook_payload.json').rename(support/'workbook_payload.json')
         return
-    # Ambiente portátil sem artifact-tool: fallback explícito. Nunca edita a fonte.
+    # Ambiente portátil sem artifact-tool: usa a mesma apresentação compacta.
     from openpyxl import Workbook
     from openpyxl.styles import Font,PatternFill,Alignment
     from openpyxl.utils import get_column_letter
     wb=Workbook();wb.remove(wb.active)
-    collections={'Resumo':[{'indicador':k,'valor':v} for k,v in summary.items() if not isinstance(v,dict)],**tables,'Base normalizada':payload['rows']}
+    presentation=json.loads((run/'dados/apresentacao.json').read_text(encoding='utf-8'))
+    collections={p['id']:[dict(zip(p['cabecalhos'],row)) for row in p['linhas']] for p in presentation['quadros']}
     for name,rs in collections.items():
         ws=wb.create_sheet(name[:31]);ws.sheet_view.showGridLines=False
         if not rs:rs=[{'resultado':'Sem registros'}]
@@ -505,7 +507,15 @@ def main():
     sections=narratives(rows,tables,summary,config)
     (run/'textos/textos_para_RCI.txt').write_text('\n\n'.join(title+'\n'+text for _,title,text,*_ in sections),encoding='utf-8')
     json_write(run/'dados/resumo_ia.json',{'periodo':{'inicio':config['inicio'],'fim':config['fim'],'observacao':config['data_observacao'],'preliminar':config['preliminar']},'indicadores':summary,'mensal':tables['mensal'],'naturezas':tables['naturezas'],'exames':tables['exames'],'prazos':tables['tempos'],'limitacoes':['Atraso segundo vencimento informado; calendário não validado' if not config.get('calendario_validado') else 'Calendário informado pelo operador','Apenas última aplicação disponível','Sem comprovação de data de protocolo SMF','Base não comprovadamente completa']})
-    charts(tables,run/'graficos');export_workbook(root,run,tables,rows,summary);create_documents(run,sections,summary,tables,meta)
+    from apresentacao import prepare,create_report
+    import shutil
+    plans=prepare(root,run,rows,tables,summary,meta)
+    charts(tables,run/'graficos');export_workbook(root,run,tables,rows,summary)
+    create_report(root,run,plans,meta)
+    create_documents(run,sections,summary,tables,meta)
+    shutil.copy2(run/'Relatorio para o RCI editavel.docx',run/'Relatorio_Adiantamentos_PRELIMINAR.docx')
+    shutil.copy2(run/'Relatorio para o RCI.pdf',run/'Relatorio_Adiantamentos_PRELIMINAR.pdf')
+    (run/'textos/textos_para_RCI.txt').write_text('\n\n'.join(p['titulo']+'\n'+p['o_que_mostra']+'\n\n'+p['conclusao']+'\n\nCritério: '+p['criterio'] for p in plans),encoding='utf-8')
     if hashlib.sha256((root/config['arquivo']).read_bytes()).hexdigest()!=meta['sha256']:
         raise RuntimeError('A fonte foi alterada durante a execução. Rode novamente para obter um pacote consistente.')
     meta['fontes_referencia']=[]

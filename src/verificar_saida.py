@@ -8,6 +8,12 @@ from docx import Document
 from pypdf import PdfReader
 
 def main():
+    root=Path(__file__).resolve().parents[1]
+    cfg=json.loads((root/'config.local.json').read_text(encoding='utf-8-sig'))
+    out=root/cfg['saida'];latest=out/(out/'ULTIMA_EXECUCAO.txt').read_text().strip()
+    if (latest/'dados/apresentacao.json').exists():
+        from verificar_apresentacao import main as verify_presentation
+        return verify_presentation()
     p=argparse.ArgumentParser();p.add_argument('--config',default='config.local.json');args=p.parse_args()
     root=Path(__file__).resolve().parents[1];cfg=json.loads((root/args.config).read_text(encoding='utf-8-sig'));out=root/cfg['saida'];run=out/(out/'ULTIMA_EXECUCAO.txt').read_text().strip()
     manifest=json.loads((run/'manifesto.json').read_text(encoding='utf-8'));s=json.loads((run/'dados/indicadores.json').read_text(encoding='utf-8'));rows=json.loads((run/'dados/base_normalizada.json').read_text(encoding='utf-8'))
