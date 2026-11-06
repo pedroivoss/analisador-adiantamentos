@@ -1,0 +1,16 @@
+# Dados reais e relatórios permanecem locais
+/Analises/**
+/manuais/**
+/relatorios base/**
+/config.local.json
+/.env
+/.venv/
+/.runtime-deps/
+/work/
+/logs/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+node_modules/
+~$*
+*.tmp

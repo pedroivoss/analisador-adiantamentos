@@ -1,0 +1,19 @@
+{
+  "arquivo": "Analises/2026/Jan-jun/Analise Prestação de contas 2026.xlsx",
+  "aba": "Prest. contas 26 - 1º Semestre",
+  "aba_consolidado": "CONSOLIDADO POR SECRETARIA",
+  "inicio": "2026-01-01",
+  "fim": "2026-06-30",
+  "data_observacao": "2026-11-06",
+  "preliminar": true,
+  "saida": "Analises/2026/Jan-jun/relatorios gerados",
+  "feriados": [],
+  "calendario_validado": false,
+  "ia": {
+    "provedor": "ollama",
+    "url": "http://localhost:11434",
+    "modelo": "qwen3:14b",
+    "timeout_segundos": 300,
+    "enviar_identificadores": false
+  }
+}

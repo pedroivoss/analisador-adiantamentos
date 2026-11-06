@@ -1,0 +1,10 @@
+Continue este projeto de análise de adiantamentos para RCI de Ubatuba.
+Primeiro leia README.md, docs/CONTEXTO.md, docs/METODOLOGIA.md e docs/VALIDACAO_INICIAL.md.
+Pasta da nova análise: [PREENCHER]. Arquivo/aba: [PREENCHER].
+Período de pagamentos: [INÍCIO] a [FIM]. Observação dos dados: [DATA].
+Valide os cabeçalhos e a disponibilidade dos resultados de fórmulas. Não altere o Excel original.
+Use src/analisador.py e uma nova configuração. Preserve a unidade registro por nota/natureza e conte processos SEI únicos separadamente. Não chame registros de número exato de solicitações.
+Não transforme dados ausentes em zero. Não misture a aba intempestiva de 2025 com o semestre de 2026. Separe prazos informados de referências técnicas, valide calendário municipal e registre todos os critérios.
+Gere tabelas, rankings completos, extremos com empates, gráficos PNG/SVG, textos editáveis, Word/PDF geral e guia Word/PDF dos arquivos. Aponte alertas e concilie o consolidado. Identifique saída preliminar enquanto não houver revisão da responsável. Não conclua infrações, dano, alcance ou falhas de planejamento apenas com totais, devoluções ou divergências de dados.
+Todos os números devem vir dos cálculos, sem depender de modelo de linguagem. Ollama pode redigir minuta separada usando somente dados agregados. Não envie dados identificáveis a APIs ou browsers sem instrução expressa do operador. GPT/Claude/Gemini são alternativas assistidas via prompt, não provedores implementados automaticamente.
+Preserve versões e correções manuais: não apague saídas. Verifique cálculos, hashes, cobertura e renderização antes de entregar.
