@@ -36,6 +36,10 @@ Cada execução cria uma pasta nova em `Analises/2026/Jan-jun/relatorios gerados
 
 ## IA local
 
+O relatório ampliado reúne os quadros compactos, cinco gráficos e análises financeiras e normativas em `Relatorio completo para o RCI.docx` e PDF. Os critérios operacionais ficam separados no `Caderno de conferencia`. Veja `docs/REDACAO_RCI.md`. As sínteses revisadas de casos reais são locais e ignoradas pelo Git; sem esse arquivo, o motor omite os casos em vez de inventar análises.
+
+O fluxo também acrescenta os seis quadros mensais por secretaria, a matriz de presença e a relação individual com os treze campos da fonte. A planilha complementar usa apresentação em tons de cinza. Leia `docs/QUADROS_MENSAIS_E_DETALHE.md` para os arquivos, a conciliação e os comandos de conferência.
+
 Os cálculos e textos de acompanhamento funcionam sem modelo de linguagem. Para gerar também uma proposta de redação local:
 
 ```powershell

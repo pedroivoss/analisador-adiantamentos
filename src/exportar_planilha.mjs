@@ -14,7 +14,7 @@ for(const plan of payload.quadros){
   const sheet=wb.worksheets.add(plan.id.slice(0,31));sheet.showGridLines=false;
   const last=col(plan.cabecalhos.length),n=plan.linhas.length;
   sheet.mergeCells(`A2:${last}2`);sheet.getRange('A2').values=[[plan.titulo]];sheet.getRange(`A2:${last}2`).format.font={name:'Arial',size:14,bold:true};
-  sheet.mergeCells(`A3:${last}3`);sheet.getRange('A3').values=[['Adiantamentos - '+payload.periodo.inicio+' a '+payload.periodo.fim+' - preliminar']];sheet.getRange(`A3:${last}3`).format.font={name:'Arial',size:9,color:'#555555'};
+  sheet.mergeCells(`A3:${last}3`);sheet.getRange('A3').values=[['Adiantamentos - '+payload.periodo.inicio+' a '+payload.periodo.fim]];sheet.getRange(`A3:${last}3`).format.font={name:'Arial',size:9,color:'#555555'};
   const matrix=[plan.cabecalhos,...plan.linhas];
   const range=sheet.getRangeByIndexes(4,0,matrix.length,plan.cabecalhos.length);range.values=matrix;
   range.format.font={name:'Arial',size:10};range.format.rowHeight=25;range.format.verticalAlignment='center';

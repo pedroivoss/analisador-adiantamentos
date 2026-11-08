@@ -3,6 +3,7 @@
 /manuais/**
 /relatorios base/**
 /config.local.json
+/docs/casos_revisados_*.json
 /.env
 /.venv/
 /.runtime-deps/

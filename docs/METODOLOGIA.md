@@ -7,7 +7,7 @@
 - Processo único é o SEI após remoção de espaços nas extremidades. Não se removem registros por repetirem o SEI. Possíveis duplicatas de processo + nota + natureza são sinalizadas e mantidas, sem deduplicação destrutiva.
 - Identificadores são texto. Nomes/secretarias têm caixa e espaços normalizados; variantes ortográficas não são fundidas automaticamente.
 - O número da linha original acompanha a base e os casos. A fonte e os documentos de referência têm hashes SHA-256 no manifesto.
-- Colunas OP, empenho, observação e auxiliares não participam da análise. Não se inferem motivos de ressalva ou falhas documentais sem os processos originais.
+- Colunas OP, empenho e auxiliares não participam da análise. A versão ampliada consulta as observações do quadro principal (coluna AB) para contextualizar os pareceres, atribuindo os relatos à fonte. As sínteses dos casos rejeitados são revisadas e vinculadas ao hash da observação. Isso não substitui o exame dos documentos originais; não se inferem falhas ausentes dos relatos.
 
 ## Valores
 
